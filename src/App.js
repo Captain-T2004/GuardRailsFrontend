@@ -7,19 +7,28 @@ import ApiKeyCreation from './pages/ApiKeyCreation';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  const domain = String(process.env.REACT_APP_AUTH0_DOMAIN);
-  const clientId = String(process.env.REACT_APP_AUTH0_CLIENT_ID);
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+  const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+  console.log(domain, typeof(domain));
   if (!domain || !clientId) {
     return <div>Missing Auth0 configuration. Please check your environment variables.</div>;
   }
 
   return (
     <Auth0Provider
-      domain="dev-grzjrys2c8bf2aow.jp.auth0.com"
-      clientId="oXOWAEQ3pdXC8eVSTHiDQpGMdjsESsdN"
+      domain={domain}
+      clientId={clientId}
       authorizationParams={{
-        redirect_uri: window.location.origin
+        redirect_uri: window.location.origin,
+        audience: audience
+      }}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
+      cookieDomain={window.location.hostname}
+      cookieOptions={{
+        sameSite: "none",
+        secure: true
       }}
     >
       <Router>

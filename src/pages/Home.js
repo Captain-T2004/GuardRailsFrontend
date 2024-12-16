@@ -1,9 +1,6 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
-// <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-//       Log Out
-//     </button>
 function Home() {
   const { isAuthenticated, user, loginWithRedirect, isLoading, logout } = useAuth0();
 
