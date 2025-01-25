@@ -12,7 +12,7 @@ function Header() {
     <header className="bg-white shadow-md">
       <nav className="container mx-auto px-6 py-3">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold text-blue-600">GuardPy</Link>
+          <Link to="/" className="text-2xl font-bold text-blue-600">dkgr-home</Link>
           <div className="space-x-4 flex items-center">
             <Link to="/" className="text-gray-700 hover:text-blue-600">Home</Link>
             {isAuthenticated ? (

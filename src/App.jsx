@@ -10,7 +10,6 @@ function App() {
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
-  console.log(domain, typeof(domain));
   if (!domain || !clientId) {
     return <div>Missing Auth0 configuration. Please check your environment variables.</div>;
   }

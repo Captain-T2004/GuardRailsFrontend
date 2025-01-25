@@ -4,21 +4,30 @@ import { Navigate } from 'react-router-dom';
 
 // Input validators and output validators configurations
 const INPUT_VALIDATORS = [
-  { id: 'detect_pii', label: 'PII Detection' },
-  { id: 'gibberish_text', label: 'Gibberish Text Detection' },
-  { id: 'nsfw_text', label: 'NSFW Text Detection' },
-  { id: 'secrets_present', label: 'Secrets Detection' },
-  { id: 'toxic_language', label: 'Toxic Text Detection' }
+  { id: 'DetectPII', label: 'PII Detection' },
+  { id: 'MentionsDrugs', label: 'Mentions Drugs' },
+  { id: 'SecretsPresent', label: 'Secrets Detection' },
+  { id: 'DetectJailbreak', label: 'Detect Jailbreak' }
 ];
 
 const OUTPUT_VALIDATORS = [
-  { id: 'financial_tone', label: 'Financial Tone Analysis' },
-  { id: 'guardrails_pii', label: 'PII Guardrails' },
-  { id: 'has_url', label: 'URL Detection' },
-  { id: 'mentions_drugs', label: 'Mentions Drugs' },
-  { id: 'redundant_sentences', label: 'Redundancy Check'},
-  { id: 'valid_python', label: 'Validate Python'},
-  { id: 'detect_pii', label: 'PII Detection' },
+  { id: 'DetectPII', label: 'PII Detection' },
+  { id: 'ProfanityFree', label: 'Profanity Check' },
+  { id: 'WebSanitization', label: 'Web Sanitization' },
+  { id: 'GibberishText', label: 'Gibberish Detection' },
+  { id: 'NSFWText', label: 'NSFW Content Check' },
+  { id: 'FinancialTone', label: 'Financial Tone Analysis' },
+  { id: 'SecretsPresent', label: 'Secrets Detection' },
+  { id: 'MentionsDrugs', label: 'Mentions Drugs' },
+  { id: 'RedundantSentences', label: 'Redundancy Check' },
+  { id: 'ToxicLanguage', label: 'Toxic Language Detection' },
+  { id: 'ValidPython', label: 'Validate Python' },
+  { id: 'DetectJailbreak', label: 'Jailbreak Detection' },
+  { id: 'ValidOpenApiSpec', label: 'OpenAPI Spec Validation' },
+  { id: 'ValidJson', label: 'JSON Validation' },
+  { id: 'ValidSQL', label: 'SQL Validation' },
+  { id: 'ValidURL', label: 'URL Validation' },
+  { id: 'HasUrl', label: 'URL Detection' },
 ];
 
 const LLM_MODELS = [
@@ -51,9 +60,9 @@ function ApiKeyCreation() {
     setIsLoadingKeys(true);
     try {
       const token = await getAccessTokenSilently({
-        audience: "my-backend-api"
+        audience: `${process.env.REACT_APP_AUTH0_AUDIENCE}`
       });
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/prev_keys`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_BACKEND_ENDPOINT_PREV_KEY}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -63,7 +72,6 @@ function ApiKeyCreation() {
       }
       const data = await response.json();
       setPreviousKeys(data.api_keys || []);
-      console.log(data);
     } catch (err) {
       console.error('Error fetching previous API keys:', err);
       setError('Failed to fetch previous API keys');
@@ -99,9 +107,9 @@ function ApiKeyCreation() {
 
     try {
       const token = await getAccessTokenSilently({
-        audience: "my-backend-api"
+        audience: `${process.env.REACT_APP_AUTH0_AUDIENCE}`
       });
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/register`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_BACKEND_ENDPOINT_REGISTER}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,9 +139,9 @@ function ApiKeyCreation() {
   const handleDeleteKey = async (keyId) => {
     try {
       const token = await getAccessTokenSilently({
-        audience: "my-backend-api"
+        audience: `${process.env.REACT_APP_AUTH0_AUDIENCE}`
       });
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/delete_keys`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_BACKEND_ENDPOINT_DELETE_KEY}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -147,7 +155,6 @@ function ApiKeyCreation() {
       }
 
       const data = await response.json();
-      console.log(data.message);
       fetchPreviousKeys(); // Refresh the list after deletion
     } catch (err) {
       console.error('Error deleting API key:', err);
