@@ -63,9 +63,12 @@ function ApiKeyCreation() {
         audience: `${process.env.REACT_APP_AUTH0_AUDIENCE}`
       });
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_BACKEND_ENDPOINT_PREV_KEY}`, {
+        method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'ngrok-skip-browser-warning': 'true',
+        },
       });
       if (!response.ok) {
         throw new Error('Failed to fetch previous API keys');
